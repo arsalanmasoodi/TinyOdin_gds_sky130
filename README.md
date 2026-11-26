@@ -7,7 +7,7 @@
 
 ## Chip Layout 
 
-![TinyODIN die plot](docs/tinyODIN_ieee_gds.jpg)
+![TinyODIN die plot](docs/tinyODIN_gds.jpg)
 
 ---
 
