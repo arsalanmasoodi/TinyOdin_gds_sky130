@@ -5,7 +5,7 @@
 
 ---
 
-## Chip Layout (IEEE Style)
+## Chip Layout 
 
 ![TinyODIN die plot](docs/tinyODIN_ieee_paper.jpg)
 
