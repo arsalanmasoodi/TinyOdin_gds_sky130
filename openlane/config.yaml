@@ -1,0 +1,97 @@
+DESIGN_NAME: tinyODIN
+
+# ── RTL ──────────────────────────────────────────────────────────────────────
+VERILOG_FILES:
+  - dir::../rtl/tinyODIN.v
+  - dir::../rtl/aer_out.v
+  - dir::../rtl/controller.v
+  - dir::../rtl/fifo.v
+  - dir::../rtl/lif_neuron.v
+  - dir::../rtl/neuron_core.v
+  - dir::../rtl/scheduler.v
+  - dir::../rtl/spi_slave.v
+  - dir::../rtl/synaptic_core.v
+
+EXTRA_VERILOG_MODELS:
+  - dir::../macros/sky130_sram_1kbyte_1rw1r_32x256_8.bb.v
+  - dir::../macros/sky130_sram_2kbyte_1rw1r_32x512_8.bb.v
+
+# ── Clocking & constraints ────────────────────────────────────────────────────
+CLOCK_PORT: CLK
+CLOCK_PERIOD: 50.0          # 20 MHz
+PNR_SDC_FILE:     dir::librelane.sdc
+SIGNOFF_SDC_FILE: dir::librelane.sdc
+
+# ── PDK ───────────────────────────────────────────────────────────────────────
+PDK: sky130A
+
+# ── Floorplan ─────────────────────────────────────────────────────────────────
+FP_SIZING: absolute
+DIE_AREA:  [0, 0, 3800, 2500]
+CORE_AREA: [30, 30, 3770, 2470]
+
+PL_TARGET_DENSITY_PCT: 45
+
+# ── Power ─────────────────────────────────────────────────────────────────────
+PDN_MACRO_CONNECTIONS:
+  - ".* VPWR VGND vccd1 vssd1"
+
+# ── Memory-safe signoff (≤ 9 GB RAM cap) ──────────────────────────────────────
+PRIMARY_GDSII_STREAMOUT_TOOL: klayout
+RUN_MAGIC_STREAMOUT:    false
+RUN_MAGIC_DRC:          false
+MAGIC_CAPTURE_ERRORS:   false
+MAGIC_DRC_USE_GDS:      false
+MAGIC_EXT_USE_GDS:      false
+MAGIC_EXT_ABSTRACT_CELLS:
+  - "sky130_sram_.*"
+RUN_MAGIC_WRITE_LEF:    false
+KLAYOUT_XOR_THREADS:    4
+KLAYOUT_DRC_THREADS:    4
+
+# ── Antenna closure ───────────────────────────────────────────────────────────
+RUN_HEURISTIC_DIODE_INSERTION: true
+DIODE_ON_PORTS: in
+GRT_ANTENNA_ITERS:   10
+GRT_ANTENNA_MARGIN:  20
+
+# ── SRAM Macros ───────────────────────────────────────────────────────────────
+MACROS:
+  sky130_sram_1kbyte_1rw1r_32x256_8:
+    gds:
+      - dir::../macros/gds/sky130_sram_1kbyte_1rw1r_32x256_8.gds
+    lef:
+      - dir::../macros/lef/sky130_sram_1kbyte_1rw1r_32x256_8.lef
+    lib:
+      "*":
+        - dir::../macros/lib/sky130_sram_1kbyte_1rw1r_32x256_8_TT_1p8V_25C.lib
+    instances:
+      neuron_core_0.neurarray_0.sram_inst:
+        location: [1660, 1000]
+        orientation: N
+
+  sky130_sram_2kbyte_1rw1r_32x512_8:
+    gds:
+      - dir::../macros/gds/sky130_sram_2kbyte_1rw1r_32x512_8.gds
+    lef:
+      - dir::../macros/lef/sky130_sram_2kbyte_1rw1r_32x512_8.lef
+    lib:
+      "*":
+        - dir::../macros/lib/sky130_sram_2kbyte_1rw1r_32x512_8_TT_1p8V_25C.lib
+    instances:
+      synaptic_core_0.synarray_0.sram_bank[0].sram_inst:  { location: [100,  100],  orientation: FN }
+      synaptic_core_0.synarray_0.sram_bank[1].sram_inst:  { location: [900,  100],  orientation: FN }
+      synaptic_core_0.synarray_0.sram_bank[2].sram_inst:  { location: [2220, 100],  orientation: N  }
+      synaptic_core_0.synarray_0.sram_bank[3].sram_inst:  { location: [3020, 100],  orientation: N  }
+      synaptic_core_0.synarray_0.sram_bank[4].sram_inst:  { location: [100,  650],  orientation: FN }
+      synaptic_core_0.synarray_0.sram_bank[5].sram_inst:  { location: [900,  650],  orientation: FN }
+      synaptic_core_0.synarray_0.sram_bank[6].sram_inst:  { location: [2220, 650],  orientation: N  }
+      synaptic_core_0.synarray_0.sram_bank[7].sram_inst:  { location: [3020, 650],  orientation: N  }
+      synaptic_core_0.synarray_0.sram_bank[8].sram_inst:  { location: [100,  1200], orientation: FN }
+      synaptic_core_0.synarray_0.sram_bank[9].sram_inst:  { location: [900,  1200], orientation: FN }
+      synaptic_core_0.synarray_0.sram_bank[10].sram_inst: { location: [2220, 1200], orientation: N  }
+      synaptic_core_0.synarray_0.sram_bank[11].sram_inst: { location: [3020, 1200], orientation: N  }
+      synaptic_core_0.synarray_0.sram_bank[12].sram_inst: { location: [100,  1750], orientation: FN }
+      synaptic_core_0.synarray_0.sram_bank[13].sram_inst: { location: [900,  1750], orientation: FN }
+      synaptic_core_0.synarray_0.sram_bank[14].sram_inst: { location: [2220, 1750], orientation: N  }
+      synaptic_core_0.synarray_0.sram_bank[15].sram_inst: { location: [3020, 1750], orientation: N  }

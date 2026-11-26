@@ -1,0 +1,39 @@
+# OpenLane run outputs
+runs/
+
+# Large intermediate files
+*.odb
+*.spef
+*.sdf
+*.spice
+
+# Magic temp files
+*.ext
+*.mag
+
+# Simulation artefacts
+*.vcd
+*.vvp
+*.out
+a.out
+
+# KLayout temp
+*.lyrdb
+*.xml
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Compressed originals (we keep the .gz in gds/)
+# (Do NOT ignore gds/*.gz — that's our deliverable)
